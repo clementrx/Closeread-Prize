@@ -74,6 +74,8 @@ gender_colors <- c("Men" = "#1f78b4",
 :::{.cr-section}
 # Introduction
 
+This article is written using the [closeread library in R](https://github.com/qmd-lab/closeread), designed to create scrollytelling story.
+
 @cr-zelezny The javelin throw is one of those sports that feels almost mythical. Watching an athlete throwing a javelin like object across a field with raw power and flawless technique is mesmerizing. And when it comes to records in this event, they’re nothing short of legendary. The men’s world record, held by **Jan Železný** since 1996 at an astounding **98.48 meters**.
 
 @cr-spotakova While the current women’s world record was set by **Barbora Špotáková** in 2008, with a stunning throw of **72.28 meters**.Theses marks seem almost untouchable, raising the question: **Is there even room to go further ?**
