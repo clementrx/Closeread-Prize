@@ -1,6 +1,6 @@
 ---
-title: "The Art of Javelin Throw: Precision, Power, and the Pursuit of Excellence"
-subtitle: "Will the Javelin Throw Record Be Broken One Day ? "
+title: "Closeread Prize: Evolution of Javelin throw distances"
+subtitle: "Will the javelin throw record be broken one day ?"
 format:
   closeread-html:
     remove-header-space: true
@@ -42,7 +42,7 @@ theme_set(theme_minimal(base_family = "Avenir Next Condensed"))
 theme_update(
   axis.title = element_blank(),
   axis.text = element_text(color = "grey40"),
-  axis.text.x = element_text(size = 6, margin = margin(t = 5), angle = 45, hjust = 1),
+  axis.text.x = element_text(size = 8, margin = margin(t = 5), angle = 45, hjust = 1),
   axis.text.y = element_text(size = 7, margin = margin(r = 5)),
   axis.ticks = element_line(color = "grey91", size = .5),
   axis.ticks.length.x = unit(1.3, "lines"),
@@ -51,7 +51,7 @@ theme_update(
   plot.margin = margin(10, 40, 20, 40),
   plot.background = element_rect(fill = "#F4F4F4", color = "#F4F4F4"),
   panel.background = element_rect(fill = "#F4F4F4", color = "#F4F4F4"),
-  panel.grid.major.y = element_line(color = "gray80"), # Customize horizontal gridlines
+  panel.grid.major.y = element_line(color = "gray80"), 
 
   plot.title = element_text(color = "grey10", size = 16, face = "bold",
                             margin = margin(t = 15)),
@@ -74,9 +74,9 @@ gender_colors <- c("Men" = "#1f78b4",
 :::{.cr-section}
 # Introduction
 
-@cr-zelezny The javelin throw is one of those sports that feels almost mythical. Watching an athlete hurl a spear-like object across a field with raw power and flawless technique is mesmerizing. And when it comes to records in this event, they’re nothing short of legendary. The men’s world record, held by Jan Železný since 1996 at an astounding 98.48 meters.
+@cr-zelezny The javelin throw is one of those sports that feels almost mythical. Watching an athlete throwing a javelin like object across a field with raw power and flawless technique is mesmerizing. And when it comes to records in this event, they’re nothing short of legendary. The men’s world record, held by **Jan Železný** since 1996 at an astounding **98.48 meters**.
 
-@cr-spotakova While the current women’s world record was set by Barbora Špotáková in 2008, with a stunning throw of 72.28 meters.Theses marks seem almost untouchable, raising the question: **Is there even room to go further ?**
+@cr-spotakova While the current women’s world record was set by **Barbora Špotáková** in 2008, with a stunning throw of **72.28 meters**.Theses marks seem almost untouchable, raising the question: **Is there even room to go further ?**
 
 @cr-me What does it really take to break a javelin throw record? Is it all about raw strength and skill, or do things like biomechanics, equipment, and weather play a part too? And, are we nearing the limits of what the human body can achieve?
 
@@ -121,15 +121,9 @@ data %>%
          Date < "1960-01-01") %>% 
 ggplot(aes(x = Date, y = Mark, color = Gender)) + 
   geom_point(size = 1) + 
-  geom_text_repel(data = data %>% 
-                        filter(Gender == 'Women',
-                               Date < "1960-01-01") %>% 
-                        arrange(desc(Mark)) %>% head(3),
-    aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2) + 
-
   geom_line(aes(group = Gender), linetype = "dashed", size = 0.2) + 
   labs(
-    title = "Evolution of Javelin Throw distances (Men and Women)",
+    title = "Evolution of Javelin Throw distances (Women)",
     subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.",
     x = "Year",
     y = "Distance (m)",
@@ -138,15 +132,16 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
   ) + 
   scale_color_manual(values = gender_colors) + 
     scale_x_date(
-    breaks = seq(as.Date("1920-01-01"),as.Date("1960-12-01"), by = "5 years"),  # Set breaks every 2 years
-    date_labels = "%Y"  # Format date labels as year
+    breaks = seq(as.Date("1920-01-01"),as.Date("1960-12-01"), by = "5 years"),  
+    date_labels = "%Y"  
   ) +
   scale_y_continuous(
     breaks = c(
-      seq(20, 60, by = 5)
+      seq(20, 50, by = 5),
+       seq(50, 58, by = 2)
     ), 
-    limits = c(25,60),
-    minor_breaks = NULL  # Remove minor breaks for clarity
+    limits = c(25,58),
+    minor_breaks = NULL  
   ) 
 ```
 :::
@@ -158,6 +153,7 @@ By the 1970s and 1980s, the records began to rise more dramatically, thanks to i
 #| label: women-distance-old
 data %>% 
   filter(Gender == 'Women',
+          Date > "1970-01-01",
          Date < "1990-01-01") %>% 
 ggplot(aes(x = Date, y = Mark, color = Gender)) + 
   geom_point(size = 1) + 
@@ -165,11 +161,11 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
                         filter(Gender == 'Women',
                                Date < "1990-01-01") %>% 
                         arrange(desc(Mark)) %>% head(3),
-    aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2) + 
+    aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2, segment.color = 'transparent') + 
 
   geom_line(aes(group = Gender), linetype = "dashed", size = 0.2) + 
   labs(
-    title = "Evolution of Javelin Throw distances (Men and Women)",
+    title = "Evolution of Javelin Throw distances (Women)",
     subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.",
     x = "Year",
     y = "Distance (m)",
@@ -178,23 +174,20 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
   ) + 
   scale_color_manual(values = gender_colors) + 
     scale_x_date(
-    breaks = seq(as.Date("1920-01-01"),as.Date("1990-12-01"), by = "10 years"),  # Set breaks every 2 years
-    date_labels = "%Y"  # Format date labels as year
+    breaks = seq(as.Date("1920-01-01"),as.Date("1990-12-01"), by = "1 years"),  
+    date_labels = "%Y"  
   ) +
   scale_y_continuous(
     breaks = c(
-      seq(30, 80, by = 10), # 30 to 80 with a step of 10m
-      seq(85, 90, by = 5),  # 85 to 90 with a step of 2m
-      seq(90, 106, by = 2)  # 90 to 100 with a step of 1m
-    ), 
-    minor_breaks = NULL  # Remove minor breaks for clarity
+      seq(30, 70, by = 5), 
+      seq(70, 90, by = 2),  
+      seq(90, 106, by = 2)  
+    ),
+    minor_breaks = NULL  
   ) 
 ```
 :::
 
-However, one of the most significant changes in this period came in 1999, when the design of the javelin was altered. 
-
-Prior to this, the javelin's center of gravity was closer to the middle, which allowed for longer throws. 
 
 After 1999, the center of gravity was shifted forward, making the javelot more stable in flight but also limiting the throwing distance. This redesign was introduced to ensure that throws would land more predictably within the field and reduce safety concerns from overly long throws. @cr-distance-women
 
@@ -207,16 +200,12 @@ data %>%
 ggplot(aes(x = Date, y = Mark, color = Gender)) + 
   geom_point(size = 1) + 
   geom_line(aes(group = Gender), linetype = "dashed", size = 0.2) + 
-  # geom_vline(xintercept = c(as.Date("1986-01-01")), 
-  #            linetype = "dotted", color = "#1f78b4", size = 1) + 
   geom_vline(xintercept = c(as.Date("1999-01-01")), 
              linetype = "dotted", color = "#FF3366", size = 1) + 
-  # annotate("text", x = as.Date("1986-01-01"), y = 40, 
-           # label = "Men's javelin redesign", color = "#1f78b4", angle = 90, vjust = -0.5) + 
   annotate("text", x = as.Date("1999-01-01"), y = 40, 
            label = "Women's javelin redesign", color = "#FF3366", angle = 90, vjust = -0.5, size = 3) + 
   labs(
-    title = "Evolution of Javelin Throw distances (Men and Women)",
+    title = "Evolution of Javelin Throw distances (Women)",
     subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.",
     x = "Year",
     y = "Distance (m)",
@@ -225,16 +214,16 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
   ) + 
   scale_color_manual(values = gender_colors) + 
     scale_x_date(
-    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "10 years"),  # Set breaks every 2 years
-    date_labels = "%Y"  # Format date labels as year
+    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "10 years"),  
+    date_labels = "%Y"  
   ) +
   scale_y_continuous(
     breaks = c(
-      seq(30, 80, by = 10), # 30 to 80 with a step of 10m
-      seq(85, 90, by = 5),  # 85 to 90 with a step of 2m
-      seq(90, 106, by = 2)  # 90 to 100 with a step of 1m
+      seq(30, 80, by = 10),
+      seq(85, 90, by = 5), 
+      seq(90, 106, by = 2) 
     ), 
-    minor_breaks = NULL  # Remove minor breaks for clarity
+    minor_breaks = NULL  
   ) 
 ```
 :::
@@ -252,7 +241,7 @@ data %>%
   geom_line(aes(group = Gender), linetype = "dashed", size = 0.2) + 
     geom_hline(yintercept = 72.28,
     linetype = "dotted", color = "#b8922a", size = 1) +
-  geom_text_repel(aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2) + 
+  geom_text_repel(aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2, segment.color = 'transparent') + 
   labs(
     title = "Evolution of Javelin Throw distances (Women)", 
     subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.", 
@@ -268,7 +257,7 @@ data %>%
   ) + 
   scale_y_continuous(
     breaks = seq(60, 100, by = 1),  limits = c(66, 73),
-    minor_breaks = NULL  # Remove minor breaks for clarity
+    minor_breaks = NULL  
   )
 
 ```
@@ -285,6 +274,7 @@ In the early decades of the sport, throws were relatively modest, with the world
 
 data %>% 
   filter(Gender == 'Men',
+         Date > "1928-01-01",
          Date < "1964-01-01") %>% 
 ggplot(aes(x = Date, y = Mark, color = Gender)) + 
   geom_point(size = 1) + 
@@ -293,10 +283,10 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
                         filter(Gender == 'Men',
                                Date < "1964-01-01") %>% 
                         arrange(desc(Mark)) %>% head(3),
-    aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2) + 
+    aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -1, size =2, segment.color = 'transparent') + 
 
   labs(
-    title = "Evolution of Javelin Throw distances (Men and Women)",
+    title = "Evolution of Javelin Throw distances (Men)",
     subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.",
     x = "Year",
     y = "Distance (m)",
@@ -305,16 +295,16 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
   ) + 
   scale_color_manual(values = gender_colors) + 
     scale_x_date(
-    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "4 years"),  # Set breaks every 2 years
-    date_labels = "%Y"  # Format date labels as year
+    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "4 years"),  
+    date_labels = "%Y" 
   ) +
   scale_y_continuous(
     breaks = c(
-      seq(60, 80, by = 10), # 30 to 80 with a step of 10m
-      seq(80, 90, by = 2)  # 85 to 90 with a step of 2m
+      seq(60, 80, by = 5), 
+      seq(80, 90, by = 2)  
     ), 
-    limits = c(60,90),
-    minor_breaks = NULL  # Remove minor breaks for clarity
+    limits = c(70,88),
+    minor_breaks = NULL  
   ) 
 ```
 :::
@@ -328,6 +318,7 @@ Uwe Hohn, a German javelin legend, holds the longest throw in history, with an i
 
 data %>% 
   filter(Gender == 'Men',
+         Date > "1940-01-01",
          Date < "1986-01-01") %>% 
 ggplot(aes(x = Date, y = Mark, color = Gender)) + 
   geom_point(size = 1) + 
@@ -336,10 +327,10 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
                         filter(Gender == 'Men',
                                Date < "1986-01-01") %>% 
                         arrange(desc(Mark)) %>% head(3),
-    aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2) + 
+    aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -1, size =2, segment.color = 'transparent') + 
 
   labs(
-    title = "Evolution of Javelin Throw distances (Men and Women)",
+    title = "Evolution of Javelin Throw distances (Men)",
     subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.",
     x = "Year",
     y = "Distance (m)",
@@ -348,22 +339,22 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
   ) + 
   scale_color_manual(values = gender_colors) + 
     scale_x_date(
-    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "4 years"),  # Set breaks every 2 years
-    date_labels = "%Y"  # Format date labels as year
+    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "4 years"),  
+    date_labels = "%Y"  
   ) +
   scale_y_continuous(
     breaks = c(
-      seq(60, 80, by = 10), # 30 to 80 with a step of 10m
-      seq(85, 90, by = 5),  # 85 to 90 with a step of 2m
-      seq(90, 106, by = 2)  # 90 to 100 with a step of 1m
+      seq(60, 80, by = 10), 
+      seq(85, 90, by = 5),  
+      seq(90, 106, by = 2)  
     ), 
-    limits = c(60,110),
-    minor_breaks = NULL  # Remove minor breaks for clarity
+    limits = c(80,110),
+    minor_breaks = NULL  
   ) 
 ```
 :::
 
-Before the 1999 redesign, the javelin's design was optimized for distance, and athletes like Hohn exploited this to achieve extraordinary throws. After the redesign, which shifted the center of gravity forward for more stability and safety, the maximum achievable distances were reduced, and Hohn’s 104.80-meter record became unbreakable with the new equipment. @cr-distance-men
+Before the 1986 redesign, the javelin's design was optimized for distance, and athletes like Hohn exploited this to achieve extraordinary throws. After the redesign, which shifted the center of gravity forward for more stability and safety, the maximum achievable distances were reduced, and Hohn’s 104.80 meter record became unbreakable with the new equipment. @cr-distance-men
 
 :::{#cr-distance-men}
 ```{r}
@@ -377,14 +368,10 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
   geom_line(aes(group = Gender), linetype = "dashed", size = 0.2) + 
   geom_vline(xintercept = c(as.Date("1986-01-01")),
              linetype = "dotted", color = "#1f78b4", size = 1) +
-  # geom_vline(xintercept = c(as.Date("1999-01-01")), 
-             # linetype = "dotted", color = "#FF3366", size = 1) + 
   annotate("text", x = as.Date("1986-01-01"), y = 70, 
            label = "Men's javelin redesign", color = "#1f78b4", angle = 90, vjust = -0.5, size = 3) + 
-  # annotate("text", x = as.Date("1999-01-01"), y = 40, 
-           # label = "Women's javelin redesign", color = "#FF3366", angle = 90, vjust = -0.5) + 
   labs(
-    title = "Evolution of Javelin Throw distances (Men and Women)",
+    title = "Evolution of Javelin Throw distances (Men)",
     subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.",
     x = "Year",
     y = "Distance (m)",
@@ -393,25 +380,66 @@ ggplot(aes(x = Date, y = Mark, color = Gender)) +
   ) + 
   scale_color_manual(values = gender_colors) + 
     scale_x_date(
-    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "4 years"),  # Set breaks every 2 years
-    date_labels = "%Y"  # Format date labels as year
+    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "4 years"),  
+    date_labels = "%Y" 
   ) +
   scale_y_continuous(
     breaks = c(
-      seq(30, 80, by = 10), # 30 to 80 with a step of 10m
-      seq(85, 90, by = 5),  # 85 to 90 with a step of 2m
-      seq(90, 106, by = 2)  # 90 to 100 with a step of 1m
+      seq(30, 80, by = 10),
+      seq(85, 90, by = 5), 
+      seq(90, 106, by = 2) 
     ), 
     limits = c(60, 110),
-    minor_breaks = NULL  # Remove minor breaks for clarity
+    minor_breaks = NULL  
   ) 
 ```
 :::
 
 
-After the 1999 redesign of the javelin, the dynamics of the sport changed significantly. The new javelin, with its center of gravity moved forward, was more stable in flight and less prone to unpredictable distances.
+The redesign also brought more consistency in performance, with athletes focusing on refining technique, precision, and speed within the new parameters. @cr-distance-men-redesign
 
-The redesign also brought more consistency in performance, with athletes focusing on refining technique, precision, and speed within the new parameters. Although the record-breaking distances have decreased, the competition remains fierce, and the sport continues to evolve with each new generation of throwers. @cr-distance-men-zoom
+:::{#cr-distance-men-redesign}
+```{r}
+#| label: men-distance-redesign
+
+data %>% 
+  filter(Gender == 'Men',
+         Date > '1987-01-01') %>% 
+ggplot(aes(x = Date, y = Mark, color = Gender)) + 
+  geom_point(size = 1) + 
+  geom_line(aes(group = Gender), linetype = "dashed", size = 0.2) + 
+   geom_text_repel(data = data %>% 
+                        filter(Gender == 'Men',
+                               Date > "1987-01-01") %>% 
+                        arrange(desc(Mark)) %>% head(5),
+    aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -1, size =2, segment.color = 'transparent') + 
+  labs(
+    title = "Evolution of Javelin Throw distances (Men)",
+    subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.",
+    x = "Year",
+    y = "Distance (m)",
+    color = "Gender",
+    caption = "Visualization by Clément Rieux • Data : https://worldathletics.org"
+  ) + 
+  geom_hline(yintercept = 98.48,
+    linetype = "dotted", color = "#b8922a", size = 1) +
+  scale_color_manual(values = gender_colors) + 
+    scale_x_date(
+    breaks = seq(as.Date("1920-01-01"),as.Date("2024-12-01"), by = "4 years"),  
+    date_labels = "%Y" 
+  ) +
+  scale_y_continuous(
+    breaks = c(
+      seq(80, 90, by = 2), 
+      seq(90, 100, by = 1) 
+    ), 
+    limits = c(85, 100),
+    minor_breaks = NULL  
+  ) 
+```
+:::
+
+Although record-breaking distances have decreased, the competition remains fierce, and the sport continues to evolve with each new generation of throwers, as evidenced by Johannes Vetter's impressive 97.76 meters throw in 2020, coming close to breaking the world record. @cr-distance-men-zoom
 
 :::{#cr-distance-men-zoom}
 ```{r}
@@ -426,9 +454,9 @@ data %>%
     linetype = "dotted", color = "#b8922a", size = 1) +
   annotate("text", x = as.Date("2010-01-01"), y = 98.90, 
            label = "Jan Železný (98.48m)", color = "#825209", size = 3) + 
-  geom_text_repel(aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2) + 
+  geom_text_repel(aes(label = paste(Athlete, "\n", sprintf("%.2f", Mark), "m")), hjust = 0, vjust = -0.5, size =2, segment.color = 'transparent') + 
   labs(
-    title = "Evolution of Javelin Throw distances (Women)", 
+    title = "Evolution of Javelin Throw distances (Men)", 
     subtitle = "Javelin throw distances from the early 20th century to the present, emphasizing the impact of equipment redesigns.", 
     x = "Year", 
     y = "Distance (m)", 
@@ -442,15 +470,16 @@ data %>%
   ) + 
   scale_y_continuous(
     breaks = seq(87, 98, by = 1),  limits = c(87, 100),
-    minor_breaks = NULL  # Remove minor breaks for clarity
+    minor_breaks = NULL  
   )
 ```
 :::
 
 ::::
 
+# Conclusion
 
-The current javelin records : Jan Železný’s 98.48 meters and Barbora Špotáková’s 72.28 meters are remarkable feats, but as athletics evolves, these records may one day be challenged. 
+The current javelin records : **Jan Železný’s 98.48 meters** and **Barbora Špotáková’s 72.28 meters** are remarkable feats, but as athletics evolves, these records may one day be challenged. 
 
 With advances in training, biomechanics, and technique, athletes are pushing the boundaries of the sport.
 
